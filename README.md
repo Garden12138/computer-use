@@ -1,8 +1,18 @@
 # computer-use
 
-macOS v0.1 native computer-use runtime. Humans use the CLI; Cursor / Codex / Claude / OpenClaw use MCP or the skills in `skills/`. Chrome is driven as a normal desktop app — no Playwright, Selenium, CDP, or Chrome debug port.
+Native computer-use runtime. Humans use the CLI; Cursor / Codex / Claude / OpenClaw use MCP or the skills in `skills/`. Chrome is driven as a normal desktop app — no Playwright, Selenium, CDP, or Chrome debug port.
+
+v0.2 keeps one JSONL command set and swaps OS helpers:
+
+- **macOS** — Swift + CGEvent + AXUIElement + Screen Capture (`scripts/build-helper.sh`)
+- **Windows** — Rust + SendInput + User32 + Windows.Graphics.Capture (`scripts/build-helper-native.sh` on Windows)
+- **Linux** — Rust with **X11** (XTEST / EWMH / XGetImage) or **Wayland** (XDG portals / libei) backends, chosen from `XDG_SESSION_TYPE`
+
+This Mac checkout does **not** run Windows or Linux GUI acceptance. Use `pytest` and `cargo test -p computer-use-core`. Real clicks/screenshots belong on the matching OS; see `tests/manual/`.
 
 ## Install
+
+macOS:
 
 ```bash
 ./scripts/build-helper.sh
@@ -14,6 +24,16 @@ Grant **Accessibility** and **Screen Recording** to `ComputerUseHelper` (the `.a
 ```bash
 computer-use doctor
 ```
+
+Windows / Linux (on that OS):
+
+```bash
+./scripts/build-helper-native.sh
+python3 -m pip install -e .
+computer-use doctor
+```
+
+`doctor` is capability negotiation. Read `platform`, `backend`, `capabilities`, and `limitations` before calling `focus_window` or window screenshots. On Wayland, `focus_window` is often false and portal prompts are expected.
 
 ## CLI
 
@@ -34,6 +54,8 @@ computer-use --pacing normal browser-save-page ./out/page.html --scrolls 8
 
 `--json` prints machine JSON. `COMPUTER_USE_PACING` / `--pacing` is `off` | `normal` (default) | `conservative`.
 
+Browser recipes (`browser-open-profile` / `browser-open-url` / `browser-save-page`) are **macOS-only in v0.2**. Windows/Linux helpers return `unsupported`.
+
 ## MCP
 
 ```json
@@ -49,9 +71,11 @@ computer-use --pacing normal browser-save-page ./out/page.html --scrolls 8
 
 ## Layout
 
-- `helper/macos` — Swift helper (`AXUIElement`, `CGEvent`, screen capture)
-- `src/computer_use` — CLI, MCP, Pacer
+- `helper/macos` — Swift helper
+- `helper/native` — Rust workspace (`computer-use-core`, `computer-use-windows`, `computer-use-linux`)
+- `src/computer_use` — CLI, MCP, Pacer, helper dispatch
 - `skills/` — agent instructions
+- `drivers/README.md` — OS backend table
 
 Coordinates are always in the latest screenshot's pixel space. `--grid` draws axis ticks in that same space so a window shot can be clicked without adding the window origin by hand.
 

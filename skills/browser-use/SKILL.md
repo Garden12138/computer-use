@@ -5,7 +5,9 @@ description: Operate Google Chrome as a normal desktop app via computer-use prim
 
 # browser-use
 
-Chrome is a regular Mac app. Drive it with `computer-use`, not a browser driver.
+Chrome is a regular desktop app. Drive it with `computer-use`, not a browser driver.
+
+v0.2 browser recipes (`browser-open-profile`, `browser-open-url`, `browser-save-page`) are **macOS-only**. On Windows/Linux use screenshot + click + hotkey (`ctrl+l`, `ctrl+s`) instead.
 
 ## Profile
 

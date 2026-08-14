@@ -59,6 +59,24 @@ enum Permissions {
             "executable": CommandLine.arguments[0],
             "hints": hints,
             "ready": ax && screen,
+            "platform": "macos",
+            "session": "aqua",
+            "backend": [
+                "input": "cgevent",
+                "screen": "screencapture",
+                "window": "ax-cgwindow",
+            ],
+            "capabilities": [
+                "screenshot": true,
+                "window_screenshot": true,
+                "move": true,
+                "click": true,
+                "scroll": true,
+                "type": true,
+                "list_windows": true,
+                "focus_window": true,
+            ],
+            "limitations": [] as [String],
         ]
     }
 

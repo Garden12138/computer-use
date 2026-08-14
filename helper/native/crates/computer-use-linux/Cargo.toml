@@ -1,0 +1,17 @@
+[package]
+name = "computer-use-linux"
+version = "0.2.0"
+edition = "2021"
+
+[[bin]]
+name = "computer-use-helper-linux"
+path = "src/main.rs"
+
+[dependencies]
+computer-use-core = { path = "../computer-use-core" }
+serde_json = "1"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+ashpd = { version = "0.11", default-features = false, features = ["async-std"] }
+async-std = { version = "1", features = ["attributes"] }
+x11rb = { version = "0.13", features = ["xtest"] }

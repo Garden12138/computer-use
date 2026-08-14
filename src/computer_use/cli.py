@@ -15,7 +15,7 @@ def build_parser() -> argparse.ArgumentParser:
     flags.add_argument("--seed", type=int, default=None)
     parser = argparse.ArgumentParser(
         prog="computer-use",
-        description="Native macOS computer-use runtime",
+        description="Native computer-use runtime (macOS / Windows / Linux)",
         parents=[flags],
     )
     sub = parser.add_subparsers(dest="cmd", required=True)

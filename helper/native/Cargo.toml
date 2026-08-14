@@ -1,0 +1,8 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/computer-use-core",
+    "crates/computer-use-windows",
+    "crates/computer-use-linux",
+]
+default-members = ["crates/computer-use-core"]

@@ -24,6 +24,10 @@ def test_success_and_error_shapes() -> None:
     err = error_payload("1", "permission_denied", "grant Accessibility")
     assert err["ok"] is False
     assert err["error"]["code"] == "permission_denied"
+    denied = error_payload("1", "focus_denied", "foreground lock")
+    assert denied["error"]["code"] == "focus_denied"
+    unsup = error_payload("1", "unsupported", "not on this backend")
+    assert unsup["error"]["code"] == "unsupported"
 
 
 def test_v01_command_set() -> None:

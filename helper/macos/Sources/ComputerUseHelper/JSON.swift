@@ -7,6 +7,8 @@ enum HelperError: Error {
     case missing(String)
     case permission(String)
     case failed(String)
+    case unsupported(String)
+    case focusDenied(String)
 
     var code: String {
         switch self {
@@ -15,6 +17,8 @@ enum HelperError: Error {
         case .missing: return "invalid_argument"
         case .permission: return "permission_denied"
         case .failed: return "failed"
+        case .unsupported: return "unsupported"
+        case .focusDenied: return "focus_denied"
         }
     }
 
@@ -25,6 +29,8 @@ enum HelperError: Error {
         case .missing(let name): return "missing argument: \(name)"
         case .permission(let msg): return msg
         case .failed(let msg): return msg
+        case .unsupported(let msg): return msg
+        case .focusDenied(let msg): return msg
         }
     }
 }
